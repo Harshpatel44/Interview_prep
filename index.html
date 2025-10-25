@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Craft Problem Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Simple transition for the chevron */
+        details summary svg {
+            transition: transform 0.2s ease-in-out;
+        }
+        /* Rotate chevron when the details element is open */
+        details[open] summary svg {
+            transform: rotate(90deg);
+        }
+        /* Hide the default summary marker */
+        summary {
+            list-style: none;
+            cursor: pointer;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        /* Style for code blocks */
+        pre {
+            background-color: #1f2937; /* gray-800 */
+            color: #f3f4f6; /* gray-100 */
+            padding: 1rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.875rem; /* text-sm */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Code Craft Practice Problems</h1>
+            <p class="text-lg text-gray-700">A tracker for OOD, JSON, and state logic questions. Your progress is saved in this browser.</p>
+        </header>
+
+        <!-- JSON Manipulation Warm-ups -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2 mb-4">JSON Manipulation Warm-ups</h2>
+            <div class="space-y-4">
+                
+                <!-- Problem A -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-json-a" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem A: The Transaction Log Aggregator</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> You are given a JSON string representing a list of transactions. Each object has a <code>type</code>, <code>order_id</code>, and <code>amount</code>. Write a function to calculate the net total for each <code>order_id</code>.</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>The list contains mixed types: <code>CHARGE</code>, <code>REFUND</code>, and <code>AUTH</code>. <code>AUTH</code> events have no <code>order_id</code> and should be ignored.</li>
+                                <li><code>amount</code> is a <em>string</em> with a <code>$</code> prefix (e.g., <code>"$45.50"</code>).</li>
+                                <li><code>REFUND</code> types should be <em>subtracted</em> from the total.</li>
+                            </ul>
+                            <strong>Input JSON:</strong>
+<pre><code>[
+  {"event_id": "e-1", "type": "CHARGE", "order_id": "order-100", "amount": "$50.00"},
+  {"event_id": "e-2", "type": "AUTH", "dasher_id": "d-123"},
+  {"event_id": "e-3", "type": "CHARGE", "order_id": "order-200", "amount": "$25.50"},
+  {"event_id": "e-4", "type": "REFUND", "order_id": "order-100", "amount": "$10.50"},
+  {"event_id": "e-5", "type": "CHARGE", "order_id": "order-100", "amount": "$5.00"}
+]</code></pre>
+                            <p><strong>Expected Output:</strong> <code>{"order-100": 44.50, "order-200": 25.50}</code></p>
+                            
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-json-a.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Problem B -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-json-b" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem B: The User Metadata Extractor</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> You are given a JSON string of a user object. Write a function that extracts and returns a simple object containing the user's full name, primary email, and their last login IP.</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>The name is in a nested object and must be combined: <code>{"first": "Jane", "last": "Doe"}</code> -> <code>"Jane Doe"</code>.</li>
+                                <li><code>contacts</code> is a list. You must iterate to find the one where <code>"primary": true</code>.</li>
+                                <li><code>metadata</code> is a <strong>double-encoded JSON string</strong>. You must parse it <em>twice</em> to access the <code>last_login_ip</code> within.</li>
+                            </ul>
+                            <strong>Input JSON:</strong>
+<pre><code>{
+  "user_id": "u-abc",
+  "profile": {
+    "name": {"first": "Jane", "last": "Doe"}
+  },
+  "contacts": [
+    {"type": "phone", "value": "555-1234", "primary": false},
+    {"type": "email", "value": "jane.doe@example.com", "primary": true},
+    {"type": "email", "value": "jane.work@example.com", "primary": false}
+  ],
+  "metadata": "{\"last_login_ip\": \"192.168.1.1\", \"preferences\": {\"theme\": \"dark\"}}"
+}</code></pre>
+                            <p><strong>Expected Output:</strong> <code>{"full_name": "Jane Doe", "email": "jane.doe@example.com", "last_login_ip": "192.168.1.1"}</code></p>
+                            
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-json-b.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Problem C -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-json-c" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem C: The Inventory Flattener</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> You are given a JSON string of a restaurant's menu, organized by categories. Write a function that "flattens" this structure into a single list of all <em>available</em> items, including their category and SKU.</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>The <code>items</code> are a <em>dictionary</em>, where the <em>key</em> is the item's SKU. You must iterate over the dictionary's <code>(key, value)</code> pairs.</li>
+                                <li>The final object must include the <code>category_name</code> (from the parent) and the <code>sku</code> (from the dictionary key).</li>
+                                <li>You must filter out any item where <code>is_available</code> is <code>false</code>.</li>
+                            </ul>
+                            <strong>Input JSON:</strong>
+<pre><code>{
+  "restaurant_id": "r-1",
+  "categories": [
+    {
+      "category_name": "Drinks",
+      "items": {
+        "SKU-D01": {"name": "Coke", "price": 2.50, "is_available": true},
+        "SKU-D02": {"name": "Sprite", "price": 2.50, "is_available": false}
+      }
+    },
+    {
+      "category_name": "Appetizers",
+      "items": {
+        "SKU-A01": {"name": "Spring Rolls", "price": 8.00, "is_available": true}
+      }
+    }
+  ]
+}</code></pre>
+                            <p><strong>Expected Output:</strong></p>
+<pre><code>[
+  {"sku": "SKU-D01", "name": "Coke", "price": 2.50, "category": "Drinks"},
+  {"sku": "SKU-A01", "name": "Spring Rolls", "price": 8.00, "category": "Appetizers"}
+]</code></pre>
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-json-c.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Full "Code Craft" Problems -->
+        <section>
+            <h2 class="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2 mb-4">Full "Code Craft" Problems</h2>
+            <div class="space-y-4">
+                
+                <!-- Problem 0: Dasher Pay -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-full-0" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem 0: Dasher Pay (Concurrency Multiplier)</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> Write a function, <code>calculate_pay_units(events)</code>, that takes a list of Dasher events. Each event has a <code>timestamp</code> and a <code>status</code> ('PICKUP' or 'DROPOFF'). Return the total "pay units", where pay units = (time elapsed in seconds × multiplier).</p>
+                            <p><strong>Logic:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>The multiplier starts at <strong>0</strong>.</li>
+                                <li><code>PICKUP</code> increases the multiplier by <strong>1</strong>.</li>
+                                <li><code>DROPOFF</code> decreases the multiplier by <strong>1</strong>.</li>
+                            </ul>
+                            <p><strong>Rules & Constraints:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>The input list is <strong>not guaranteed</strong> to be in chronological order.</li>
+                                <li>The multiplier <strong>must never drop below 0</strong>.</li>
+                                <li>If a <code>PICKUP</code> and <code>DROPOFF</code> occur at the exact same timestamp, process the <strong><code>PICKUP</code> first</strong>.</li>
+                            </ul>
+                            <strong>Example Input:</strong>
+<pre><code>[
+  (300, 'DROPOFF'),
+  (100, 'PICKUP'),
+  (350, 'DROPOFF'),
+  (200, 'PICKUP')
+]</code></pre>
+                            <p><strong>Calculation Trace (after sorting):</strong></p>
+                            <ol class="list-decimal list-inside space-y-1">
+                                <li><strong>Event (t=100, PICKUP):</strong>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Interval (0s to 100s) @ 0x multiplier = 0 units.</li>
+                                        <li>Multiplier becomes 1.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Event (t=200, PICKUP):</strong>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Interval (100s to 200s) @ 1x multiplier = 100 units.</li>
+                                        <li>Multiplier becomes 2.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Event (t=300, DROPOFF):</strong>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Interval (200s to 300s) @ 2x multiplier = 200 units.</li>
+                                        <li>Multiplier becomes 1.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Event (t=350, DROPOFF):</strong>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Interval (300s to 350s) @ 1x multiplier = 50 units.</li>
+                                        <li>Multiplier becomes 0.</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                            <p><strong>Expected Output:</strong> <code>350</code></p>
+                            
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-full-0.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Problem 1 -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-full-1" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem 1: Order Total Calculator</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> Implement <code>calculate_order_total(order_json)</code>. You must parse the messy JSON, calculate all line items (ignoring the unreliable <code>subtotal_estimate</code>), apply *only* valid promotions, and sum up all fees (ignoring <code>null</code> ones) and the tip to produce a single, final total.</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><code>items.price</code> and <code>tip</code> are strings that must be parsed.</li>
+                                <li><code>promotions</code> is a dictionary; you must check <code>is_active: true</code>.</li>
+                                <li><code>adjustments</code> is a list; some values might be <code>null</code>.</li>
+                            </ul>
+                            <strong>Input JSON:</strong>
+<pre><code>{
+  "order_id": "ord-123",
+  "subtotal_estimate": "45.00",
+  "items": [
+    {"item_id": "i-1", "name": "Chicken Wings", "price": "14.99", "quantity": 1},
+    {"item_id": "i-2", "name": "Coke Zero", "price": "2.50", "quantity": 2}
+  ],
+  "promotions": {
+    "FALL20": {"type": "PERCENT", "value": 0.20, "is_active": true},
+    "WELCOME5": {"type": "FIXED", "value": 5.00, "is_active": false}
+  },
+  "adjustments": [
+    {"name": "Service Fee", "amount": 3.99},
+    {"name": "Delivery Fee", "amount": 5.00},
+    {"name": "Small Order Fee", "amount": null}
+  ],
+  "tip": "6.15"
+}</code></pre>
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-full-1.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+                
+                <!-- Problem 2 -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-full-2" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem 2: Order Ingestion & Validation Service</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> Design an <code>OrderValidationService</code> with a <code>process_order(raw_json)</code> method. It must parse the JSON, validate it, and return a "clean" <code>Order</code> object or a structured error message.</p>
+                            <p><strong>Rules:</strong> Must have <code>customer_id</code>, at least one <code>item</code>, a parsable <code>delivery_address</code>, and all <code>item_ids</code> must be integers.</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Field names are inconsistent (e.g., <code>order_id</code> vs <code>orderId</code>).</li>
+                                <li><code>items</code> is a dictionary where the *key* is the <code>item_id</code>.</li>
+                                <li><code>item_id</code>s in the keys might be strings (e.g., <code>"1002"</code>).</li>
+                                <li><code>delivery_address</code> is a single string to be parsed.</li>
+                            </ul>
+                            <strong>Input JSON:</strong>
+<pre><code>{
+  "orderId": "A-987",
+  "custId": "user-554",
+  "delivery_address": "123 Main St, Toronto, M5V 2K1",
+  "items": {
+    "1002": {"name": "Bag of Chips", "quantity": 2},
+    "2005": {"name": "Energy Drink", "quantity": 1}
+  }
+}</code></pre>
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-full-2.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+                
+                <!-- Problem 3 -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-full-3" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem 3: Dasher Bonus Calculator</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> Write <code>calculate_bonus(dasher_deliveries_json)</code>. Bonus is +$1.00 for on-time (<code>dropoff_actual</code> <= <code>dropoff_estimated</code>) and +$2.00 for 5-star ratings (<code>rating == 5</code> or <code>rating == "5"</code>).</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Timestamps are ISO 8601 strings and must be parsed to compare.</li>
+                                <li><code>customer_feedback</code> object can be <code>null</code> or missing.</li>
+                                <li><code>rating</code> can be an integer (<code>5</code>) or a string (<code>"5"</code>).</li>
+                                <li><code>is_return: true</code> deliveries are ineligible for any bonus.</li>
+                            </ul>
+                            <strong>Input JSON:</strong>
+<pre><code>[
+  {
+    "delivery_id": "d-1", "is_return": false,
+    "timestamps": {
+      "dropoff_estimated": "2025-10-25T14:30:00Z",
+      "dropoff_actual": "2025-10-25T14:28:00Z"
+    },
+    "customer_feedback": {"rating": 5}
+  },
+  {
+    "delivery_id": "d-2", "is_return": false,
+    "timestamps": {
+      "dropoff_estimated": "2025-10-25T15:20:00Z",
+      "dropoff_actual": "2025-10-25T15:22:00Z"
+    },
+    "customer_feedback": {"rating": "4"}
+  },
+  {
+    "delivery_id": "d-3", "is_return": true,
+    "timestamps": {"...": "..."},
+    "customer_feedback": {"rating": 5}
+  },
+  {
+    "delivery_id": "d-4", "is_return": false,
+    "timestamps": {
+      "dropoff_estimated": "2025-10-25T17:20:00Z",
+      "dropoff_actual": "2025-10-25T17:19:00Z"
+    },
+    "customer_feedback": null
+  }
+]</code></pre>
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-full-3.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+                
+                <!-- Problem 4 -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-full-4" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem 4: Menu Filtering Service</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> Design a <code>MenuFilteringService</code> that takes <code>menu_json</code> and <code>filters_json</code>. It must return a new, filtered menu JSON. Items that don't match are removed. If a category becomes empty, it must also be removed.</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Deeply nested JSON: <code>categories</code> -> <code>items</code>.</li>
+                                <li>Filters are optional (e.g., no <code>max_price</code> means don't filter by price).</li>
+                                <li>Filtering logic is *AND*: must be <code>is_available</code>, under <code>max_price</code>, AND match all <code>dietary_tags</code>.</li>
+                                <li>Items without a <code>dietary_tags</code> key should be treated as <code>[]</code>.</li>
+                                <li>You must construct a new, valid JSON object, not modify the original.</li>
+                            </ul>
+                            <strong>Input Menu JSON:</strong>
+<pre><code>{
+  "categories": [
+    {"category_name": "Appetizers", "items": [
+      {"name": "Spring Rolls", "price": 8.00, "is_available": true, "dietary_tags": ["vegan"]},
+      {"name": "Chicken Wings", "price": 14.00, "is_available": true, "dietary_tags": []}
+    ]},
+    {"category_name": "Main Courses", "items": [
+      {"name": "Green Curry", "price": 18.00, "is_available": true, "dietary_tags": ["vegan", "gluten_free"]},
+      {"name": "Pad Thai", "price": 16.00, "is_available": false, "dietary_tags": ["gluten_free"]}
+    ]}
+  ]
+}</code></pre>
+                            <strong>Input Filters JSON:</strong>
+<pre><code>{
+  "max_price": 15.00,
+  "dietary_tags": ["vegan"]
+}</code></pre>
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-full-4.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+                
+                <!-- Problem 5 -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-full-5" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem 5: Order Financial Reconciliation Service</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> Write <code>reconcile_transactions(transactions_json)</code>. Take the log and return a JSON object where each key is an <code>order_id</code> and the value is its "net profit".</p>
+                            <p><strong>Logic:</strong> <code>CHARGE</code>/<code>ADJUSTMENT (positive)</code> are revenue. <code>DASHER_PAY</code>, <code>REFUND</code>, <code>ADJUSTMENT (negative)</code> are expenses. Ignore other types.</p>
+                            <p><strong>Tricks:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Heterogeneous list: LET> type key determines structure.</li>
+                                <li>Some events (like <code>DASHER_ONLINE</code>) have no <code>order_id</code> and should be skipped.</li>
+                                <li><code>amount</code> is always positive; use <code>type</code> to know if it's revenue or expense.</li>
+                                <li><code>ADJUSTMENT</code> payload is a **double-encoded JSON string**! You must parse it to get its (positive or negative) amount.</li>
+                            </ul>
+                            <strong>Input JSON:</strong>
+<pre><code>[
+  { "event_id": "evt-1", "type": "CHARGE", "order_id": "A100", "amount": 45.50 },
+  { "event_id": "evt-2", "type": "DASHER_PAY", "order_id": "A100", "amount": 8.00 },
+  { "event_id": "evt-3", "type": "DASHER_ONLINE", "dasher_id": "D123" },
+  { "event_id": "evt-4", "type": "CHARGE", "order_id": "B200", "amount": 22.00 },
+  { "event_id": "evt-5",
+    "type": "ADJUSTMENT",
+    "order_id": "A100",
+    "payload": "{\"reason\": \"Customer complaint\", \"amount\": -5.00}"
+  },
+  { "event_id": "evt-6", "type": "DASHER_PAY", "order_id": "B200", "amount": 6.50 },
+  { "event_id": "evt-7", "type": "REFUND", "order_id": "B200", "amount": 22.00 }
+]</code></pre>
+                            <!-- Solution Button and Container -->
+                            <button class="show-solution-btn mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-full-5.py">Show Solution</button>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Checkbox LocalStorage Logic ---
+            const checkboxes = document.querySelectorAll('.problem-item input[type="checkbox"]');
+            
+            checkboxes.forEach(checkbox => {
+                const storedState = localStorage.getItem(checkbox.id);
+                if (storedState === 'true') {
+                    checkbox.checked = true;
+                }
+            });
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    localStorage.setItem(e.target.id, e.target.checked);
+                });
+            });
+
+            // --- Solution Fetching Logic ---
+            document.querySelectorAll('.show-solution-btn').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const btn = e.target;
+                    const filePath = btn.dataset.solutionFile;
+                    // The container is the next sibling element
+                    const container = btn.nextElementSibling; 
+
+                    if (!filePath || !container) {
+                        console.error("Button or container missing for", btn);
+                        return;
+                    }
+
+                    // Show a loading state
+                    container.style.display = 'block';
+                    container.innerHTML = '<p class="text-gray-500">Loading solution...</p>';
+
+                    try {
+                        // Fetch the solution file from the repo
+                        const response = await fetch(filePath);
+                        if (!response.ok) {
+                            // This will be true for 404 errors
+                            throw new Error("File not found");
+                        }
+                        const solutionText = await response.text();
+
+                        // Populate the container with a header and the formatted code
+                        container.innerHTML = `
+                            <h4 class="text-md font-semibold text-gray-800 mt-4 mb-2">Solution:</h4>
+                            <pre><code></code></pre>
+                        `;
+                        
+                        // Use .textContent to automatically escape any HTML in the code
+                        container.querySelector('code').textContent = solutionText;
+
+                        // Hide the "Show Solution" button
+                        btn.style.display = 'none';
+
+                    } catch (error) {
+                        console.error("Failed to load solution:", error.message);
+                        // Show the user-friendly error message
+                        container.innerHTML = `<p class="text-red-600"><strong>Error:</strong> The solution doesn't exist at the moment.</p>`;
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
