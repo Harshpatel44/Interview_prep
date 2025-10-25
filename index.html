@@ -487,6 +487,49 @@
                     </details>
                 </div>
 
+                <!-- Problem 6: Delivery Assignment Service -->
+                <div class="problem-item bg-white p-4 rounded-lg shadow-md flex items-start space-x-4">
+                    <input type="checkbox" id="problem-full-6" class="h-6 w-6 rounded text-blue-600 border-gray-300 focus:ring-blue-500 mt-1">
+                    <details class="flex-1 min-w-0">
+                        <summary class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-semibold text-gray-900">Problem 6: Delivery Assignment Service</h3>
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </summary>
+                        <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
+                            <p><strong>Task:</strong> Design and implement a <code>DeliveryAssignmentService</code>. This service will be responsible for assigning a newly created order to the 'best' available Dasher.</p>
+                            <p><strong>Core Requirements:</strong></p>
+                            <ol class="list-decimal list-inside space-y-1">
+                                <li>Implement the main API method: <code>assign_order(Order order)</code>.</li>
+                                <li>The "best" Dasher is defined as the closest <em>available</em> Dasher to the <em>restaurant</em>.</li>
+                                <li>When an order is assigned, the Dasher becomes unavailable, and the order's status should be updated to <code>ASSIGNED</code>.</li>
+                                <li>If no Dashers are available, the service should throw a <code>NoDashersAvailableException</code>.</li>
+                            </ol>
+                            <p><strong>Provided Mocks (Assume these exist):</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><code>DasherRepository</code> with <code>get_available_dashers() -> List[Dasher]</code></li>
+                                <li><code>OrderRepository</code> with <code>save(Order order)</code></li>
+                                <li><code>DasherRepository</code> with <code>save(Dasher dasher)</code></li>
+                                <li><code>DistanceService</code> with <code>calculate_distance(Location loc1, Location loc2) -> float</code></li>
+                            </ul>
+                             <p><strong>Data Models (You will need to define these):</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><code>Location: (latitude, longitude)</code></li>
+                                <li><code>Order: (order_id, restaurant_location, customer_location, status)</code></li>
+                                <li><code>Dasher: (dasher_id, current_location, is_available)</code></li>
+                                <li><code>Delivery: (delivery_id, order_id, dasher_id, status)</code></li>
+                            </ul>
+                            <p><strong>Focus on:</strong> Your implementation of <code>DeliveryAssignmentService</code> and any supporting classes/enums. Show good OOD, error handling, and testability.</p>
+                            
+                            <!-- Solution Button and Container -->
+                            <div class="solution-toggle-container mt-4">
+                                <button class="show-solution-btn bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" data-solution-file="solutions/problem-full-6.py">Show Solution</button>
+                                <button class="hide-solution-btn bg-gray-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors" style="display: none;">Hide Solution</button>
+                            </div>
+                            <div class="solution-container mt-4" style="display: none;"></div>
+                        </div>
+                    </details>
+                </div>
+
             </div>
         </section>
     </div>
