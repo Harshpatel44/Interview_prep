@@ -455,10 +455,10 @@
                         </summary>
                         <div class="problem-description mt-4 text-gray-700 border-t border-gray-200 pt-4 space-y-3">
                             <p><strong>Task:</strong> Write <code>reconcile_transactions(transactions_json)</code>. Take the log and return a JSON object where each key is an <code>order_id</code> and the value is its "net profit".</p>
-                            <p><strong>Logic:</strong> <code>CHARGE</code>/<code>ADJUSTMENT (positive)</code> are revenue. <code>DASHER_PAY</code>, <code>REFUND</code>, MST<code>ADJUSTMENT (negative)</code> are expenses. Ignore other types.</p>
+                            <p><strong>Logic:</strong> <code>CHARGE</code>/<code>ADJUSTMENT (positive)</code> are revenue. <code>DASHER_PAY</code>, <code>REFUND</code>, <code>ADJUSTMENT (negative)</code> are expenses. Ignore other types.</p>
                             <p><strong>Tricks:</strong></p>
                             <ul class="list-disc list-inside space-y-1">
-                                <li>Heterogeneous list: LET> type key determines structure.</li>
+                                <li>Heterogeneous list: <code>type</code> key determines structure.</li>
                                 <li>Some events (like <code>DASHER_ONLINE</code>) have no <code>order_id</code> and should be skipped.</li>
                                 <li><code>amount</code> is always positive; use <code>type</code> to know if it's revenue or expense.</li>
                                 <li><code>ADJUSTMENT</code> payload is a **double-encoded JSON string**! You must parse it to get its (positive or negative) amount.</li>
@@ -493,9 +493,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Checkbox LocalStorage Logic ---
+            // --- Checkbox Logic ---
             const checkboxes = document.querySelectorAll('.problem-item input[type="checkbox"]');
             
+            // 1. Load saved state from localStorage
             checkboxes.forEach(checkbox => {
                 const storedState = localStorage.getItem(checkbox.id);
                 if (storedState === 'true') {
@@ -503,10 +504,38 @@
                 }
             });
 
+            // 2. Save any manual changes to localStorage
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', (e) => {
                     localStorage.setItem(e.target.id, e.target.checked);
                 });
+            });
+
+            // 3. Auto-check if solution file exists (and not already checked)
+            checkboxes.forEach(async (checkbox) => {
+                // Only check if it's not already checked by localStorage
+                if (checkbox.checked) return;
+
+                const problemItem = checkbox.closest('.problem-item');
+                const showBtn = problemItem.querySelector('.show-solution-btn');
+                
+                if (!showBtn) return;
+                
+                const filePath = showBtn.dataset.solutionFile;
+
+                try {
+                    // Use HEAD request for a lightweight check without downloading the file
+                    const response = await fetch(filePath, { method: 'HEAD' });
+                    
+                    if (response.ok) {
+                        // File exists, check the box and save to localStorage
+                        checkbox.checked = true;
+                        localStorage.setItem(checkbox.id, 'true');
+                    }
+                } catch (error) {
+                    // File doesn't exist or network error, do nothing
+                    // console.log(`No solution file found for ${filePath}`);
+                }
             });
 
             // --- Solution Fetching Logic ---
