@@ -74,7 +74,6 @@ class MenuFilteringService:
 
             items_match = []
             for item in ctg_items:
-                match = False
                 item_name = item.get("name", "")
                 item_is_available = item.get("is_available", False)
                 item_dietary_tags = item.get("dietary_tags", [])
